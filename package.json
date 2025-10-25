@@ -1,1 +1,17 @@
-
+{
+  "name": "keysystem-api",
+  "version": "1.0.0",
+  "description": "Secure key system backend",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "express": "^4.18.2",
+    "mongodb": "^5.9.0",
+    "cors": "^2.8.5"
+  },
+  "engines": {
+    "node": "18.x"
+  }
+}
