@@ -1,1 +1,88 @@
+node_modules/
+     .env
+```
+   - Click **"Commit changes"**
 
+---
+
+### **Step 1.3: Set Up MongoDB Database**
+
+1. Go to https://www.mongodb.com/cloud/atlas/register
+2. Sign up (free, no credit card)
+3. Choose **"Free"** tier (M0)
+4. Click **"Create"**
+5. Cloud provider: **AWS**, Region: Choose closest to you
+6. Cluster name: Leave default or name it `keysystem`
+7. Click **"Create Cluster"** (takes 1-3 minutes)
+
+8. **Create Database User:**
+   - On left sidebar, click **"Database Access"**
+   - Click **"Add New Database User"**
+   - Username: `admin`
+   - Password: Click **"Autogenerate Secure Password"** → **COPY THIS PASSWORD** (save it somewhere!)
+   - Click **"Add User"**
+
+9. **Allow Network Access:**
+   - On left sidebar, click **"Network Access"**
+   - Click **"Add IP Address"**
+   - Click **"Allow Access from Anywhere"** (adds `0.0.0.0/0`)
+   - Click **"Confirm"**
+
+10. **Get Connection String:**
+    - On left sidebar, click **"Database"** (or **"Clusters"**)
+    - Click **"Connect"** button on your cluster
+    - Click **"Connect your application"**
+    - Copy the connection string (looks like):
+```
+      mongodb+srv://admin:<password>@cluster0.xxxxx.mongodb.net/?retryWrites=true&w=majority
+```
+    - **IMPORTANT:** Replace `<password>` with the password you copied earlier
+    - **Save this complete connection string!**
+
+---
+
+### **Step 1.4: Deploy to Render.com**
+
+1. Go to https://render.com
+2. Click **"Get Started for Free"** (sign up with GitHub)
+3. Authorize Render to access your GitHub
+
+4. **Create New Web Service:**
+   - Click **"New +"** (top right)
+   - Select **"Web Service"**
+   - Click **"Connect"** next to your `keysystem-api` repository
+   
+5. **Configure Service:**
+   - Name: `keysystem-api` (or anything you want)
+   - Region: Choose closest to you
+   - Branch: `main`
+   - Root Directory: (leave empty)
+   - Runtime: **Node**
+   - Build Command: `npm install`
+   - Start Command: `node server.js`
+   - Instance Type: **Free**
+
+6. **Add Environment Variables:**
+   - Scroll down to **"Environment Variables"**
+   - Click **"Add Environment Variable"**
+   
+   **Variable 1:**
+   - Key: `MONGO_URI`
+   - Value: (paste your MongoDB connection string from step 1.3)
+   
+   **Variable 2:**
+   - Key: `SECRET_KEY`
+   - Value: Go to https://www.random.org/strings/ and generate a 32-character random string, or just type any random 32+ characters like: `mySecureKey12345SuperSecret9999`
+   
+   **Variable 3:**
+   - Key: `PORT`
+   - Value: `10000`
+
+7. Click **"Create Web Service"** (bottom)
+
+8. **Wait 2-5 minutes** for deployment. You'll see logs scrolling.
+
+9. **Get Your API URL:**
+   - Once deployed (shows "Live"), at the top you'll see a URL like:
+```
+     https://keysystem-api-xxxx.onrender.com
